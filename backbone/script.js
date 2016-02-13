@@ -49,20 +49,28 @@ $(document).ready(function(){
             }
         }
     }
-    teamMembers.init()
 
     var App = Backbone.View.extend({
         el: '#app',
 
         initialize: function(){
-            members.each(function(member){
+            this.area = $('.team-app');
+
+            teamMembers.init()
+
+            $.each(members, function(member, i){
                 var view = new MemberView({
-                    model: NewMemberModel
+                    model: members
                 });
-                this.el.append(view.render().el)
+                //////////////
+                //////////////
+                //////////////
+                $('.team-app').append(view.render().el)
             }, this)
         },
     });
+
+    new App();
 
     // Create a new team member
     // var NewMemberModel = new MemberModel({
