@@ -1,0 +1,11 @@
+$(document).ready(function(){
+
+    var team = [
+      {id: 1, name:"Alex", sport: "football"},
+      {id: 2, name:"John", sport: "cricket"},
+      {id: 3, name:"Pete", sport: "handball"},
+      {id: 4, name:"Bob", sport: "cycling"},
+      {id: 5, name:"Jim", sport: "rugby"},
+    ];
+
+});
