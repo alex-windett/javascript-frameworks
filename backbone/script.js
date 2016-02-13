@@ -28,7 +28,11 @@ $(document).ready(function(){
 
         render: function(){
             var tmpl = _.template(this.template)
-            this.$el.html(tmpl(this.model.toJSON()))
+
+            for ( i in this.model ) {
+                    console.log(i)
+                    this.$el.html(tmpl(this.model[i].toJSON()))
+            }
 
             return this
         }
@@ -38,14 +42,18 @@ $(document).ready(function(){
     var teamMembers = {
 
         init: function(){
+
+            members = []
+
             for (var i in team) {
                 memberName = team[i].name;
                 memberSport = team[i].sport;
 
-                members = new MemberModel({
+                member = new MemberModel({
                     name: memberName,
                     sport: memberSport
                 })
+                members.push(member);
             }
         }
     }
@@ -62,9 +70,7 @@ $(document).ready(function(){
                 var view = new MemberView({
                     model: members
                 });
-                //////////////
-                //////////////
-                //////////////
+                
                 $('.team-app').append(view.render().el)
             }, this)
         },
