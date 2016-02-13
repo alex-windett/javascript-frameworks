@@ -8,18 +8,18 @@ $(document).ready(function(){
       {id: 5, name:"Jim", sport: "rugby"},
     ];
 
-    var Member = Backbone.Model.extend({
+    var MemberModel = Backbone.Model.extend({
         defaults: {
           name: 'sam',
           sport: 'tennis'
         }
       });
 
-    var Members = Backbone.Collection.extend({
-        model: Member
+    var MembersCollection = Backbone.Collection.extend({
+        model: MemberModel
     });
 
-    var Members = new Members();
+    var MembersCollection = new MembersCollection();
 
     var MemberView = Backbone.View.extend({
         tagName: "div",
@@ -34,16 +34,46 @@ $(document).ready(function(){
         }
     });
 
+    // Creat a new model for each in the team object
+    var teamMembers = {
+
+        init: function(){
+            for (var i in team) {
+                memberName = team[i].name;
+                memberSport = team[i].sport;
+
+                members = new MemberModel({
+                    name: memberName,
+                    sport: memberSport
+                })
+            }
+        }
+    }
+    teamMembers.init()
+
+    var App = Backbone.View.extend({
+        el: '#app',
+
+        initialize: function(){
+            members.each(function(member){
+                var view = new MemberView({
+                    model: NewMemberModel
+                });
+                this.el.append(view.render().el)
+            }, this)
+        },
+    });
+
     // Create a new team member
-    var member = new Member({
-        name: "A new member",
-        sport: "An interesting sport"
-    });
+    // var NewMemberModel = new MemberModel({
+    //     name: "A new member",
+    //     sport: "An interesting sport"
+    // });
+    //
+    // MemberView = new MemberView({
+    //     model: NewMemberModel
+    // });
 
-    memberView = new MemberView({
-        model: member
-    });
-
-    $('.team-app').html(memberView.render().el)
+    // $('.team-app').html(MemberView.render().el)
 
 });
