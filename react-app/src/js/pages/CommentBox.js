@@ -1,11 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import $ from 'jquery';
-
-// import Archives from "./pages/Archives";
-// import Featured from "./pages/Featured";
-// import Layout from "./pages/Layout";
-// import Settings from "./pages/Settings";
 
 const bfTeam    = "http://www.9bar.com/wp-json/wp/v2/bf-team";
 const bfTeamCat = "http://www.9bar.com/wp-json/wp/v2/bf-team-cat";
@@ -27,27 +20,6 @@ var CommentList = React.createClass({
         return (
             <ul classMame="comment__list">
                 {commentNode}
-            </ul>
-        )
-    }
-});
-
-var CategoryList = React.createClass({
-    render() {
-
-        var categoryNode = this.props.data.map(function(catagory){
-            console.log(catagory + 'adsadsa')
-            return (
-                <Comment key={catagory.id}>
-                    <h2>{catagory.title.rendered}</h2>
-                    <h4>{catagory.content.rendered}</h4>
-                </Comment>
-            )
-        });
-
-        return (
-            <ul classMame="catagory__list">
-                {categoryNode}
             </ul>
         )
     }
@@ -131,48 +103,3 @@ var CommentBox = React.createClass({
         );
     }
 });
-
-var CatDropdown = React.createClass({
-    loadCatagoryFromServer() {
-        $.ajax({
-            url: this.props.url,
-            dataType: 'json',
-            cache: false,
-            success: function(data){
-                this.setState({data: data})
-                console.log(data)
-            }.bind(this),
-            error: function() {
-                console.log('error with cat response')
-            }.bind(this)
-        });
-    },
-
-    getInitialState() {
-        return {
-            data: []
-        }
-    },
-
-    mountComponents() {
-        console.log('adssads')
-        this.loadCatagoryFromServer();
-    },
-
-    render() {
-
-        return (
-            <div className="commentCatagory">
-                <CategoryList data={this.state.data} />
-            </div>
-        )
-    }
-});
-
-ReactDOM.render(
-    <div>
-        <CatDropdown url="http://9bar.alex.dev/wp-json/wp/v2/bf-team-cat"/>
-        <CommentBox url='http://9bar.alex.dev/wp-json/wp/v2/bf-team'/>
-    </div>,
-    document.getElementById('app')
-)
