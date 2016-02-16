@@ -1,7 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import $ from 'jquery';
+
 import CommentBox from './components/CommentBox.js';
+import TeamDropdown from './components/TeamDropdown.js';
 
 // import Archives from "./pages/Archives";
 // import Featured from "./pages/Featured";
@@ -13,6 +15,7 @@ const bfTeamCat = "http://www.9bar.com/wp-json/wp/v2/bf-team-cat";
 
 ReactDOM.render(
     <div>
+        <TeamDropdown />
         <CommentBox url='http://9bar.alex.dev/wp-json/wp/v2/bf-team'/>
     </div>,
     document.getElementById('app')
