@@ -1,18 +1,17 @@
 import React from "react";
+import ReactDOM from "react-dom";
+import $ from 'jquery';
 
-const bfTeam    = "http://www.9bar.com/wp-json/wp/v2/bf-team";
-const bfTeamCat = "http://www.9bar.com/wp-json/wp/v2/bf-team-cat";
 
 var CommentList = React.createClass({
     render() {
 
         var commentNode = this.props.data.map(function(member){
-            const bfTeamCat = "http://www.9bar.com/wp-json/wp/v2/bf-team-cat";
 
             return (
                 <Comment key={member.id}>
                     <h2>{member.title.rendered}</h2>
-                    <h4>{member.content.rendered}</h4>
+                    <h4> {member.content.rendered}</h4>
                 </Comment>
             )
         });
@@ -20,6 +19,27 @@ var CommentList = React.createClass({
         return (
             <ul classMame="comment__list">
                 {commentNode}
+            </ul>
+        )
+    }
+});
+
+var CategoryList = React.createClass({
+    render() {
+
+        var categoryNode = this.props.data.map(function(catagory){
+            console.log(catagory + 'adsadsa')
+            return (
+                <Comment key={catagory.id}>
+                    <h2>{catagory.title.rendered}</h2>
+                    <h4>{catagory.content.rendered}</h4>
+                </Comment>
+            )
+        });
+
+        return (
+            <ul classMame="catagory__list">
+                {categoryNode}
             </ul>
         )
     }
@@ -55,8 +75,13 @@ var Comment = React.createClass({
     }
 })
 
-var CommentBox = React.createClass({
-    loadCommentsFromServer: function() {
+export default class CommentBox extends React.Component {
+    constructor(){
+        super();
+        this.state = {data: []}
+    }
+
+    loadCommentsFromServer() {
         $.ajax({
             url: this.props.url,
             dataType: 'json',
@@ -68,32 +93,13 @@ var CommentBox = React.createClass({
                 console.error(this.props.url, status, err.toString());
             }.bind(this)
         });
-    },
+    }
 
-    // loadCatagoryFromServer() {
-    //     $.ajax({
-    //         url: "http://www.9bar.com/wp-json/wp/v2/bf-team-cat",
-    //         dataType: 'json',
-    //         cache: false,
-    //         success: function(data) {
-    //             this.setState({data: data});
-    //         }.bind(this),
-    //         error: function(xhr, status, err) {
-    //             console.error(bfTeamCat, status, err.toString());
-    //         }.bind(this)
-    //     })
-    // },
-
-    getInitialState: function() {
-        return {data: []};
-    },
-
-    componentDidMount: function() {
+    componentDidMount() {
         this.loadCommentsFromServer();
-        // this.loadCatagoryFromServer();
-    },
+    }
 
-    render: function() {
+    render() {
         return (
             <div className="commentBox">
                 <h2>This is the Comment Box</h2>
@@ -102,4 +108,4 @@ var CommentBox = React.createClass({
             </div>
         );
     }
-});
+}
