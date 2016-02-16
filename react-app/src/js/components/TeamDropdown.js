@@ -57,7 +57,7 @@ export default class TeamDropdown extends React.Component {
     render() {
 
         return (
-                <OptionList data={this.state.data}/>
+            <OptionList data={this.state.data}/>
         )
     }
 }
