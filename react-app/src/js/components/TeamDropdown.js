@@ -1,26 +1,35 @@
 import React from "react";
 import $ from 'jquery';
 
-var itemWrapper = React.createClass({
-
-    render(){
-        return (
-            <option>{this.props.data.id}</option>
-        )
-    }
-})
+// var itemWrapper = React.createClass({
+//
+//     render(){
+//         return (
+//             <option>{this.props.data.id}</option>
+//         )
+//     }
+// })
 
 var OptionList = React.createClass({
 
-    render() {
+    handleClick: function(e, id) {
+        self.id = id;
+    },
 
+    render() {
         var listItem = this.props.data;
 
         return (
             <select>
                 {listItem.map(function(item){
-                    return <option value={item.slug} key={item.id}>{item.name}</option>
-                })}
+                    return (
+                        <option
+                        onClick={this.handleClick(this, item.id)}
+                        value={item.slug}
+                        key={item.id} >
+                            {item.name} - {item.id}</option>
+                    )}.bind(this)
+                )}
             </select>
         )
     }
