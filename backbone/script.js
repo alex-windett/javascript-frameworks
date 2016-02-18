@@ -70,7 +70,7 @@ $(document).ready(function(){
                 var view = new MemberView({
                     model: members
                 });
-                
+
                 $('.team-app').append(view.render().el)
             }, this)
         },
