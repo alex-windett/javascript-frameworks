@@ -15,8 +15,7 @@ const bfTeamCat = "http://www.9bar.com/wp-json/wp/v2/bf-team-cat";
 
 ReactDOM.render(
     <div>
-        <TeamDropdown />
-        <CommentBox url='http://9bar.alex.dev/wp-json/wp/v2/bf-team'/>
+        <CommentBox teamURL='http://www.9bar.com/wp-json/wp/v2/bf-team' catURL="http://www.9bar.com/wp-json/wp/v2/bf-team-cat"/>
     </div>,
     document.getElementById('app')
 )

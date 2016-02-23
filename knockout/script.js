@@ -12,18 +12,40 @@ $(document).ready(function(){
         name: ko.observable("Alex"),
         sport: ko.observable("Rugby")
     };
-
-    ko.applyBindings({
-        team: [
-            {id: 1, name:"Alex", sport: "football"},
-            {id: 2, name:"John", sport: "cricket"},
-            {id: 3, name:"Pete", sport: "handball"},
-            {id: 4, name:"Bob", sport: "cycling"},
-            {id: 5, name:"Jim", sport: "rugby"}
-        ]
-    });
     */
-    
+
+    var teamViewModel = function() {
+            var self            = this;
+            self.teamlist   = ko.observableArray();
+
+            self.getTeam = function(){
+                $.ajax({
+                    type: 'GET',
+                    url: 'url',
+                    data: "json",
+                    success: function(data) {
+                        var observableData = ko.mapping.fromJS(data);
+                        var array = observableData();
+                        self.teamList(array);
+                        console.log(data)
+                    },
+                    error:function(jq, st, error){
+                        alert(error);
+                    }
+                })
+            }
+    };
+
+    // ko.applyBindings({
+    //     team: [
+    //         {id: 1, name:"Alex", sport: "football"},
+    //         {id: 2, name:"John", sport: "cricket"},
+    //         {id: 3, name:"Pete", sport: "handball"},
+    //         {id: 4, name:"Bob", sport: "cycling"},
+    //         {id: 5, name:"Jim", sport: "rugby"}
+    //     ]
+    // });
+
     var teamView = function(teamMembers){
         var self = this;
 
@@ -42,5 +64,7 @@ $(document).ready(function(){
         this.sport = ko.observable(sport)
     }
 
-    return teamMember;
+    // return teamMember;
+
+    return teamViewModel;
 });

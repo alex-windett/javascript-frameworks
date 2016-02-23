@@ -2,6 +2,31 @@ import React from "react";
 import ReactDOM from "react-dom";
 import $ from 'jquery';
 
+var itemWrapper = React.createClass({
+
+    render(){
+        return (
+            <option>{this.props.data.id}</option>
+        )
+    }
+})
+
+var OptionList = React.createClass({
+
+    render() {
+
+        var listItem = this.props.data;
+
+        return (
+            <select>
+                {listItem.map(function(item){
+                    return <option value={item.slug} key={item.id}>{item.name}</option>
+                })}
+            </select>
+        )
+    }
+});
+
 
 var CommentList = React.createClass({
     render() {
@@ -78,21 +103,37 @@ var Comment = React.createClass({
 export default class CommentBox extends React.Component {
     constructor(){
         super();
-        this.state = {data: []}
+        this.state = {
+            teamData: [],
+            catData: []
+        }
     }
 
     loadCommentsFromServer() {
         $.ajax({
-            url: this.props.url,
+            url: this.props.teamURL,
             dataType: 'json',
             cache: false,
             success: function(data) {
-                this.setState({data: data});
+                this.setState({teamData: data});
             }.bind(this),
             error: function(xhr, status, err) {
-                console.error(this.props.url, status, err.toString());
+                console.error(this.props.teamURL, status, err.toString());
             }.bind(this)
         });
+
+        $.ajax({
+            url: this.props.catURL,
+            dataType: 'json',
+            cache: false,
+            success: function(data) {
+                this.setState({catData: data});
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(this.props.catURL, status, err.toString());
+            }.bind(this)
+
+        })
     }
 
     componentDidMount() {
@@ -101,9 +142,12 @@ export default class CommentBox extends React.Component {
 
     render() {
         return (
+
             <div className="commentBox">
+                <OptionList data={this.state.catData} class="this-team-list"/>
+                
                 <h2>This is the Comment Box</h2>
-                <CommentList data={this.state.data} />
+                <CommentList data={this.state.teamData} />
                 <CommentForm />
             </div>
         );
