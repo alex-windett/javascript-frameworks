@@ -16,22 +16,34 @@ $(document).ready(function(){
       });
 
     var MembersCollection = Backbone.Collection.extend({
-        model: MemberModel
+        model: MemberModel,
+        url: './data/team.json'
     });
 
-    var MembersCollection = new MembersCollection();
+    // var MembersCollection = new MembersCollection();
 
     var MemberView = Backbone.View.extend({
         tagName: "div",
         className: "member-container",
         template: $('#team-template').html(),
 
+        initialize: function() {
+            var self = this
+            this.collection = new MembersCollection();
+            this.collection.fetch();
+            this.render();
+        },
+
         render: function(){
+            // this.collection.each(function(member){
+            //         console.log(member + ' item')
+            // })
+
             var tmpl = _.template(this.template)
 
             for ( i in this.model ) {
-                    console.log(i)
-                    this.$el.html(tmpl(this.model[i].toJSON()))
+                console.log(i)
+                this.$el.html(tmpl(this.model[i].toJSON()))
             }
 
             return this
@@ -70,7 +82,7 @@ $(document).ready(function(){
                 var view = new MemberView({
                     model: members
                 });
-                
+
                 $('.team-app').append(view.render().el)
             }, this)
         },

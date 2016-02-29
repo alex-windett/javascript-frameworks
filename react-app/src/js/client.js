@@ -3,7 +3,8 @@ import ReactDOM from "react-dom";
 import $ from 'jquery';
 
 import CommentBox from './components/CommentBox.js';
-import TeamDropdown from './components/TeamDropdown.js';
+// import TestDropdown from './components/TestDropdown.js';
+// import TeamDropdown from './components/TeamDropdown.js';/
 
 // import Archives from "./pages/Archives";
 // import Featured from "./pages/Featured";
