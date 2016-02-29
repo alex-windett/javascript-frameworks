@@ -1,50 +1,19 @@
 $(document).ready(function(){
-    /*
-    var teamObserverableArray = ko.observableArray([
-        {id: 1, name:"Alex", sport: "football"},
-        {id: 2, name:"John", sport: "cricket"},
-        {id: 3, name:"Pete", sport: "handball"},
-        {id: 4, name:"Bob", sport: "cycling"},
-        {id: 5, name:"Jim", sport: "rugby"}
-    ]);
-
-    var teamMemberModel = {
-        name: ko.observable("Alex"),
-        sport: ko.observable("Rugby")
-    };
-    */
 
     var teamViewModel = function() {
             var self            = this;
-            self.teamlist   = ko.observableArray();
+            self.teamlist       = ko.observableArray([]);
 
-            self.getTeam = function(){
-                $.ajax({
-                    type: 'GET',
-                    url: 'url',
-                    data: "json",
-                    success: function(data) {
-                        var observableData = ko.mapping.fromJS(data);
-                        var array = observableData();
-                        self.teamList(array);
-                        console.log(data)
-                    },
-                    error:function(jq, st, error){
-                        alert(error);
-                    }
-                })
-            }
+            $.getJSON("http://jsonplaceholder.typicode.com/posts", function(data) {
+                // Now use this data to update your view models,
+                // and Knockout will update your UI automatically
+                teamlist.push(data)
+                console.debug(self.teamlist + ' inside ajax')
+            }).success(function(){
+              console.debug(self.teamlist)
+            })
+      //       ko.applyBindings({ team });
     };
-
-    // ko.applyBindings({
-    //     team: [
-    //         {id: 1, name:"Alex", sport: "football"},
-    //         {id: 2, name:"John", sport: "cricket"},
-    //         {id: 3, name:"Pete", sport: "handball"},
-    //         {id: 4, name:"Bob", sport: "cycling"},
-    //         {id: 5, name:"Jim", sport: "rugby"}
-    //     ]
-    // });
 
     var teamView = function(teamMembers){
         var self = this;
@@ -56,15 +25,23 @@ $(document).ready(function(){
             {id: 4, name:"Bob", sport: "cycling"},
             {id: 5, name:"Jim", sport: "rugby"}
         ])
-    }
+    };
+
+    var members = ko.observableArray([
+        {id: 1, name:"Alex", sport: "football"},
+        {id: 2, name:"John", sport: "cricket"},
+        {id: 3, name:"Pete", sport: "handball"},
+        {id: 4, name:"Bob", sport: "cycling"},
+        {id: 5, name:"Jim", sport: "rugby"}
+    ])
 
     // A single team member
-    var teamMember = function(name, sport) {
-        this.name = ko.observable(name);
-        this.sport = ko.observable(sport)
+    var teamMember = function(members) {
+        this.name = ko.observable(members.name);
+        this.sport = ko.observable(members.sport)
     }
 
-    // return teamMember;
+    return teamMember(members);
 
-    return teamViewModel;
+    // return teamViewModel();
 });

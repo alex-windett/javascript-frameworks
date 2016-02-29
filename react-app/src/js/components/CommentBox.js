@@ -13,12 +13,19 @@ var itemWrapper = React.createClass({
 
 var OptionList = React.createClass({
 
+    change(event) {
+        var a = this
+        return (
+            console.log(a)
+        )
+    },
+
     render() {
 
         var listItem = this.props.data;
 
         return (
-            <select>
+            <select onChange={this.change}>
                 {listItem.map(function(item){
                     return <option value={item.slug} key={item.id}>{item.name}</option>
                 })}
@@ -144,8 +151,8 @@ export default class CommentBox extends React.Component {
         return (
 
             <div className="commentBox">
-                <OptionList data={this.state.catData} class="this-team-list"/>
-                
+                <OptionList data={this.state.catData} class="this-team-list" />
+
                 <h2>This is the Comment Box</h2>
                 <CommentList data={this.state.teamData} />
                 <CommentForm />
