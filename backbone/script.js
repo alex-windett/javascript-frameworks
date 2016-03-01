@@ -23,7 +23,7 @@ $(document).ready(function(){
     // var MembersCollection = new MembersCollection();
 
     var MemberView = Backbone.View.extend({
-        tagName: "div",
+        tagName: "li",
         className: "member-container",
         template: $('#team-template').html(),
 
