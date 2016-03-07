@@ -11,7 +11,8 @@ const bfTeamCat = "http://www.9bar.com/wp-json/wp/v2/bf-team-cat";
 // <TeamContainer teamURL='http://www.9bar.com/wp-json/wp/v2/bf-team' catURL="http://www.9bar.com/wp-json/wp/v2/bf-team-cat"/>
 
 var TeamSelector = React.createClass({
-    getInitialState:function(){
+
+    getInitialState(){
         return {
             selectValue:'ultra-running',
             catData: [],
@@ -46,33 +47,42 @@ var TeamSelector = React.createClass({
     },
 
     loadCommentsFromServer() {
+        fetch(bfTeam)
+            .then( response => {
 
-        // Load all the catagaries for the dropdown
-        $.ajax({
-            url: 'http://www.9bar.com/wp-json/wp/v2/bf-team-cat',
-            dataType: 'json',
-            cache: false,
-            success: function(data) {
-                this.setState({catData: data});
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error('http://www.9bar.com/wp-json/wp/v2/bf-team-cat', status, err.toString());
-            }.bind(this)
-        })
+                if ( response.status !== 200 ) {
+                    console.log(`There was a problem with your response. Status code: ${response.status}`)
 
-        // Load all the team to populat the page on laod
-        $.ajax({
-            url: 'http://www.9bar.com/wp-json/wp/v2/bf-team',
-            dataType: 'json',
-            cache: false,
-            success: function(data) {
-                this.setState({teamData: data});
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error('http://www.9bar.com/wp-json/wp/v2/bf-team', status, err.toString());
-            }.bind(this)
+                    return
+                }
 
-        })
+                response.json().then( (data) => {
+                    this.setState({teamData: data})
+                })
+
+            })
+            .catch( error => {
+                console.log(`There was an error: ${error}`)
+            });
+
+
+        fetch(bfTeamCat)
+            .then( response => {
+
+                if ( response.status !== 200 ) {
+                    console.log(`There was a problem with your response. Status code: ${response.status}`)
+
+                    return
+                }
+
+
+                response.json().then( (data) => {
+                    this.setState({catData: data})
+                })
+            })
+            .catch( error =>{
+                console.log(`There was an error: ${error}`)
+            });
     },
 
     componentDidMount() {
@@ -93,7 +103,7 @@ var TeamSelector = React.createClass({
         let number = 0;
         const teamList = members.map(function(member){
             number++;
-
+            console.log(member)
             return (
                 <article key={number++}>
                     <h1>{member.title.rendered}</h1>
